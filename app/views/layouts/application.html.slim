@@ -1,0 +1,10 @@
+doctype html
+html.h-100 lang="#{I18n.locale}"
+  head
+    = render 'layouts/shared/head'
+  body.d-flex.flex-column.h-100
+    = render 'layouts/shared/nav'
+    main.container
+      = render_flash_messages dismissible: true
+      = yield
+    = render 'layouts/shared/footer'

@@ -1,0 +1,15 @@
+header.container.mb-2
+  .d-flex.flex-wrap.align-items-center.py-2.border-bottom.text-black.navbar-light
+    nav.navbar.navbar-expand-md.me-auto
+      = link_to t('.main'), root_path, class: 'navbar-brand'
+      button.navbar-toggler[
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"]
+        span.navbar-toggler-icon
+      .collapse.navbar-collapse id="navbarCollapse"
+        ul.navbar-nav.ms-auto.mb-2.mb-md-0
+    ul.nav.nav-pills
