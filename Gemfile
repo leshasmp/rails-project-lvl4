@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'flash_rails_messages'
+gem 'rails-i18n'
 gem 'rollbar', '~> 2.11', '>= 2.11.5'
 gem 'simple_form'
 gem 'slim', '~> 3.0', '>= 3.0.6'
