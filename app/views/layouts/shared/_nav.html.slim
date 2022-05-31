@@ -1,7 +1,7 @@
 header.container.mb-2
   .d-flex.flex-wrap.align-items-center.py-2.border-bottom.text-black.navbar-light
     nav.navbar.navbar-expand-md.me-auto
-      = link_to t('.main'), root_path, class: 'navbar-brand'
+      = link_to t('.home'), root_path, class: 'navbar-brand'
       button.navbar-toggler[
           type="button"
           data-bs-toggle="collapse"
@@ -12,4 +12,16 @@ header.container.mb-2
         span.navbar-toggler-icon
       .collapse.navbar-collapse id="navbarCollapse"
         ul.navbar-nav.ms-auto.mb-2.mb-md-0
+          li.nav-item
+            = link_to t('.main_page'), root_path, class: 'nav-link text-dark'
     ul.nav.nav-pills
+      - if signed_in?
+        li.nav-item
+          = link_to current_user.email, current_user.email, class: 'nav-link text-secondary'
+        li.nav-item
+          = link_to t('.logout'), auth_logout_path, class: 'nav-link text-dark', method: 'delete', data: { turbo: false }
+      - else
+        li.nav-item
+          = link_to auth_request_path('github'), class: 'nav-link text-dark', method: 'post', data: { turbo: false } do
+            .fa-brands.fa-github.me-2
+            = t('.sign_in')

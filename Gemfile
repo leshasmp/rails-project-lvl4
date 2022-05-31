@@ -27,8 +27,10 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
-
 gem 'flash_rails_messages'
+gem 'omniauth'
+gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
+gem 'omniauth-rails_csrf_protection'
 gem 'rails-i18n'
 gem 'rollbar', '~> 2.11', '>= 2.11.5'
 gem 'simple_form'
