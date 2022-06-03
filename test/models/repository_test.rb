@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-
-class HomeControllerTest < ActionDispatch::IntegrationTest
+class RepositoryTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

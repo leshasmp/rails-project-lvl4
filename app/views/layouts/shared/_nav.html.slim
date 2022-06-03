@@ -12,8 +12,9 @@ header.container.mb-2
         span.navbar-toggler-icon
       .collapse.navbar-collapse id="navbarCollapse"
         ul.navbar-nav.ms-auto.mb-2.mb-md-0
-          li.nav-item
-            = link_to t('.main_page'), root_path, class: 'nav-link text-dark'
+          - if signed_in?
+            li.nav-item
+              = link_to t('.repositories'), repositories_path, class: 'nav-link text-dark'
     ul.nav.nav-pills
       - if signed_in?
         li.nav-item

@@ -1,0 +1,11 @@
+en:
+  web:
+    auth:
+      sign_out:
+        success:
+          Successfully logged out from your account
+      callback:
+        success:
+          Successfully signed in into your account
+      error:
+        You should be logged    

@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_31_094234) do
+ActiveRecord::Schema.define(version: 2022_06_01_073135) do
+
+  create_table "repositories", force: :cascade do |t|
+    t.integer "github_id"
+    t.string "owner_name"
+    t.string "repo_name"
+    t.text "description"
+    t.string "aasm_state"
+    t.string "default_branch"
+    t.integer "watchers_count"
+    t.string "language"
+    t.datetime "repo_created_at"
+    t.datetime "repo_updated_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_repositories_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "nickname"
@@ -23,4 +40,5 @@ ActiveRecord::Schema.define(version: 2022_05_31_094234) do
     t.index ["email"], name: "index_users_on_email"
   end
 
+  add_foreign_key "repositories", "users"
 end

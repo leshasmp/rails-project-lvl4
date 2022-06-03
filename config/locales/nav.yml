@@ -1,0 +1,12 @@
+en:
+  layouts:
+    shared:
+      nav:
+        home:
+          Home
+        repositories:
+          Repositories
+        logout:
+          Logout
+        sign_in:
+          Sign in with github
