@@ -21,7 +21,7 @@ class RepositoryLoaderJob < ApplicationJob
   def repository_params(data)
     {
       owner_name: data[:owner][:login],
-      repo_name: data[:name],
+      repo_name: data[:full_name],
       description: data[:description],
       default_branch: data[:default_branch],
       watchers_count: data[:watchers],
