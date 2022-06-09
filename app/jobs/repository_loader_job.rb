@@ -9,6 +9,7 @@ class RepositoryLoaderJob < ApplicationJob
     client = Octokit::Client.new
     remote_repository = client.repo repository.github_id
     params = repository_params(remote_repository)
+    params[:id] = repository.id
     if repository.update(params)
       repository.to_fetched!
     else
@@ -20,11 +21,9 @@ class RepositoryLoaderJob < ApplicationJob
 
   def repository_params(data)
     {
-      owner_name: data[:owner][:login],
-      repo_name: data[:full_name],
-      description: data[:description],
-      default_branch: data[:default_branch],
-      watchers_count: data[:watchers],
+      name: data[:name],
+      full_name: data[:full_name],
+      clone_url: data[:clone_url],
       language: data[:language],
       repo_created_at: data[:created_at],
       repo_updated_at: data[:updated_at]

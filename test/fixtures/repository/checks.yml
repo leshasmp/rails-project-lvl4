@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  repository: one
+  status: MyString
+  passed: false
+  issues_count: MyString
+  value: MyString
+  commit: value
+  aasm_state: MyString
+
+two:
+  repository: two
+  status: MyString
+  passed: false
+  issues_count: MyString
+  value: MyString
+  commit: value
+  aasm_state: MyString

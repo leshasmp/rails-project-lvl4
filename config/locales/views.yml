@@ -15,4 +15,9 @@ en:
           Add repository
       create:
         success:
-          Repository created successfully    
+          Repository created successfully
+    repository:
+      checks:
+        create:
+          success:
+            Check created      

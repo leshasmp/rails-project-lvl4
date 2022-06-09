@@ -5,18 +5,19 @@
         = t('.title')
       hr
       = link_to t('.new_repos'), new_repository_path, class: 'my-4 btn btn-primary'
-      table.table.table-striped.table-hover.mb-5
-        thead
-          tr
-            th{ scope: :col } = t('.repo_name')
-            th{ scope: :col } = t('.language')
-            th{ scope: :col } = t('.check_pass')
-        tbody
-          - @repositories.each do |repository|
+      - if @repositories.present?
+        table.table.table-striped.mb-5
+          thead
             tr
-              td
-                = link_to repository.repo_name, repository_path(repository), class: 'me-2'
-              td
-                = repository.language
-              td
-                = repository.language
+              th[scope="col"] = t('.name')
+              th[scope="col"] = t('.language')
+              th[scope="col"] = t('.last_check_passed')
+          tbody
+            - @repositories.each do |repository|
+              tr
+                td
+                  = link_to repository.name, repository_path(repository), class: 'me-2'
+                td
+                  = repository.language
+                td
+                  = repository.last_check_passed

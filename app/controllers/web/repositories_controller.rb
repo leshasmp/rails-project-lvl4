@@ -11,7 +11,7 @@ class Web::RepositoriesController < Web::ApplicationController
   end
 
   def index
-    @repositories = current_user.repositories.all
+    @repositories = current_user.repositories.all.order('created_at DESC')
   end
 
   def new
@@ -25,7 +25,7 @@ class Web::RepositoriesController < Web::ApplicationController
   end
 
   def create
-    @repository = current_user.repositories.build(permitted_params)
+    @repository = current_user.repositories.find_or_initialize_by(permitted_params)
 
     if @repository.save
       redirect_to repositories_path, notice: t('.success')
@@ -37,6 +37,7 @@ class Web::RepositoriesController < Web::ApplicationController
 
   def show
     @repository = Repository.find params[:id]
+    @checks = @repository.checks.order('created_at DESC')
   end
 
   private

@@ -2,13 +2,13 @@
   .p-3.p-lg-4.pt-lg-0
     .mb-4
       h1.mt-5
-        = @repository.repo_name
+        = @repository.full_name
       hr
-    = link_to 'Check', 'Check', class: 'btn btn-primary mb-4'
+    = link_to 'Check', repository_checks_path(@repository), class: 'btn btn-primary mb-4', method: 'post', data: { turbo: false }
     p
       strong.me-2
         | Name
-      = @repository.repo_name
+      = @repository.full_name
     p
       strong.me-2
         | Language
@@ -16,9 +16,31 @@
     p
       strong.me-2
         | Created at
-      = @repository.created_at
+      = @repository.created_at.strftime('%b %d, %Y %H:%M')
     p
       strong.me-2
         | Updated at
-      = @repository.updated_at
+      = @repository.updated_at.strftime('%b %d, %Y %H:%M')
     hr
+    - if @checks.present?
+      table.table.table-striped
+        thead
+          tr
+            th
+            th[scope="col"] = t('.state')
+            th[scope="col"] = t('.reference')
+            th[scope="col"] = t('.check_passed')
+            th[scope="col"] = t('.created_at')
+        tbody
+          - @checks.each do |check|
+            tr
+              td
+                = link_to check.id, repository_check_path(@repository, check), class: 'me-2'
+              td
+                = check.aasm_state
+              td
+                = link_to check.commit, "https://github.com/#{@repository.full_name}/commit/#{check.commit}"
+              td
+                = check.passed
+              td
+                = check.created_at.strftime('%d %b %H:%M')

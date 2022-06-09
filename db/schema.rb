@@ -10,23 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_01_073135) do
+ActiveRecord::Schema.define(version: 2022_06_08_114431) do
 
   create_table "repositories", force: :cascade do |t|
     t.integer "github_id"
-    t.string "owner_name"
-    t.string "repo_name"
-    t.text "description"
-    t.string "aasm_state"
-    t.string "default_branch"
-    t.integer "watchers_count"
+    t.string "name"
+    t.string "full_name"
     t.string "language"
+    t.string "clone_url"
+    t.string "aasm_state"
+    t.boolean "last_check_passed", default: false
     t.datetime "repo_created_at"
     t.datetime "repo_updated_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_repositories_on_user_id"
+  end
+
+  create_table "repository_checks", force: :cascade do |t|
+    t.string "name"
+    t.string "status"
+    t.boolean "passed", default: false
+    t.string "issues_count"
+    t.string "value"
+    t.string "commit"
+    t.string "aasm_state"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "repository_id", null: false
+    t.index ["repository_id"], name: "index_repository_checks_on_repository_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -41,4 +54,5 @@ ActiveRecord::Schema.define(version: 2022_06_01_073135) do
   end
 
   add_foreign_key "repositories", "users"
+  add_foreign_key "repository_checks", "repositories"
 end
