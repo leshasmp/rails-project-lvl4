@@ -28,5 +28,5 @@ class Repository < ApplicationRecord
     end
   end
 
-  enumerize :language, in: %i[JavaScript], default: :JavaScript
+  enumerize :language, in: %i[JavaScript Ruby], default: :JavaScript
 end

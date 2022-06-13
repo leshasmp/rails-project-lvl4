@@ -25,8 +25,7 @@
           td
             | Issues count
           td
-            = @check.issues_count
-    - if @check_value.present?
+            = @check.issues_count     
       table.table.table-hover.mb-5
         thead
           tr
@@ -37,15 +36,16 @@
             th
               | Line column
         tbody
-          - if @check_value['messages'].present?
-            tr
-              td[colspan="3"]
-                = link_to @check_value['filePath'], 'https://github.com/'
-            - @check_value['messages'].each do |message|
+          - if @check_value.present?
+            - @check_value.each do |value|
               tr
-                td
-                  = message['message']
-                td
-                  = message['ruleId']
-                td
-                  = "#{message['line']}:#{message['column']}"
+                td[colspan="3"]
+                  = link_to value['file_path'], 'https://github.com/'
+              - value['messages'].each do |message|
+                tr
+                  td
+                    = message['message']
+                  td
+                    = message['rule']
+                  td
+                    = message['line_column']

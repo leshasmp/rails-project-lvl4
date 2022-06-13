@@ -7,6 +7,10 @@ class CheckRepositoryLoaderJob < ApplicationJob
     @check = Repository::Check.find id
     @check.check!
     @repository = @check.repository
+    @check_commands = {
+      javascript: 'npx eslint --format json',
+      ruby: 'rubocop --format json'
+    }
     if @check.update(check_params)
       @check.to_finished!
     else
@@ -20,22 +24,67 @@ class CheckRepositoryLoaderJob < ApplicationJob
     clone_url = @repository[:clone_url]
     client = Octokit::Client.new
     issues = client.issues @repository.github_id
-    repository_path = "#{Rails.root}/tmp/repositories/#{@repository[:name]}"
-    value = check_js(repository_path, clone_url)
-    data_value = JSON.parse(value).first
+    repository_path = "tmp/repositories/#{@repository[:name]}/"
+    check_result_data = check_code(repository_path, clone_url, @check_commands[:"#{@repository.language.downcase}"])
+    if @repository.language.casecmp('javascript').zero?
+      check_result = generate_result_js check_result_data
+    end
+    if @repository.language.casecmp('ruby').zero?
+      check_result = generate_result_rb check_result_data
+    end
     {
       name: "Check ##{@check.id}",
       issues_count: issues.count,
-      value: value,
+      value: check_result,
       commit: commit(repository_path),
-      passed: data_value['messages'].empty?
+      passed: check_result.blank?
     }
   end
 
-  def check_js(repository_path, clone_url)
+  def generate_result_js(check_result_data)
+    result = []
+    data = JSON.parse(check_result_data)
+    filtered_check = data.filter { |value| value['messages'].present? }
+    filtered_check.each do |value|
+      params = {}
+      params[:file_path] = value['filePath']
+      params[:messages] = []
+      value['messages'].each do |message|
+        params[:messages] << {
+          rule: message['ruleId'],
+          message: message['message'],
+          line_column: "#{message['line']}:#{message['column']}"
+        }
+      end
+      result << params
+    end
+    JSON.generate result if result.present?
+  end
+
+  def generate_result_rb(check_result_data)
+    result = []
+    data = JSON.parse(check_result_data)['files']
+    filtered_check = data.filter { |value| value['offenses'].present? }
+    filtered_check.each do |value|
+      params = {}
+      params[:file_path] = value['path']
+      params[:messages] = []
+      value['offenses'].each do |message|
+        params[:messages] << {
+          rule: message['cop_name'],
+          message: message['message'],
+          line_column: "#{message['location']['start_line']}:#{message['location']['start_column']}"
+        }
+      end
+      result << params
+    end
+    JSON.generate result if result.present?
+  end
+
+  def check_code(repository_path, clone_url, check_command)
     stdout, _exit_status = Open3.popen3("rm -rf #{repository_path} &&
                                         git clone #{clone_url} #{repository_path} &&
-                                        npx eslint --format json --ext .js #{repository_path}/**/*.js") do |_stdin, stdout, _stderr, wait_thr|
+                                        #{check_command} #{repository_path}") do |_stdin, stdout, _stderr, wait_thr|
       [stdout.read, wait_thr.value]
     end
     stdout

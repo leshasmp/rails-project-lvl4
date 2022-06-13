@@ -15,7 +15,8 @@ class Web::Repository::ChecksController < Web::Repository::ApplicationController
   end
 
   def show
+    @repository = Repository.find params[:repository_id]
     @check = Repository::Check.find params[:id]
-    @check_value = JSON.parse(@check.value).first if @check.value.present?
+    @check_value = JSON.parse(@check.value) if @check.value.present?
   end
 end
