@@ -3,7 +3,16 @@
 require 'test_helper'
 
 class Web::Repository::ChecksControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @user = users :one
+    @repository = repositories :one
+    sign_in @user
+  end
+
+  test 'should create check' do
+    post repository_checks_url(@repository)
+
+    check = Repository::Check.find_by repository_id: @repository.id
+    assert { check }
+  end
 end

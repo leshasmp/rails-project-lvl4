@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'aasm'
 gem 'actionpack-action_caching'
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'dry-auto_inject'
 gem 'dry-container'
 gem 'enumerize'
 gem 'flash_rails_messages'

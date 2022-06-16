@@ -10,6 +10,7 @@ class RepositoryLoaderJob < ApplicationJob
     remote_repository = client.repo repository.github_id
     params = repository_params(remote_repository)
     params[:id] = repository.id
+    params[:issues_count] = client.issues(repository.github_id).count
     if repository.update(params)
       repository.to_fetched!
     else
