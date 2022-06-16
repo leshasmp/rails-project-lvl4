@@ -44,3 +44,4 @@
                 = check.passed
               td
                 = check.created_at.strftime('%d %b %H:%M')
+      = paginate @checks, theme: 'bootstrap5'

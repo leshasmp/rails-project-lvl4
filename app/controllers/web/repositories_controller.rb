@@ -36,8 +36,8 @@ class Web::RepositoriesController < Web::ApplicationController
   end
 
   def show
-    @repository = Repository.find params[:id]
-    @checks = @repository.checks.order('created_at DESC')
+    @repository = Repository.find(params[:id])
+    @checks = @repository.checks.order('created_at DESC').page(params[:page])
   end
 
   private

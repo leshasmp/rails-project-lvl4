@@ -24,5 +24,7 @@ class Repository
         transitions from: :checking, to: :failed
       end
     end
+
+    paginates_per 2
   end
 end
