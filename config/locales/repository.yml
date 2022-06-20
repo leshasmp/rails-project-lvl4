@@ -1,0 +1,9 @@
+en:
+  web:
+    repository:
+      checks:
+        create:
+          success:
+            Check created
+          error:
+            Сheck creation error  

@@ -1,0 +1,20 @@
+en:
+  web:
+    repository:
+      checks:
+        show:
+          created_at:
+            Created at
+          status:
+            Status
+          check_passed:
+            Check passed
+          issues_count:  
+            Issues count
+          message:
+            Message
+          rule:
+            Rule
+          line_column:
+            Line column
+        

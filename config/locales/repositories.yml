@@ -1,0 +1,35 @@
+en:
+  web:
+    repositories:
+      index:
+        title:
+          Repositories
+        new_repos:
+          New
+        name:
+          Name
+        language:
+          Language
+        last_check_passed:
+          Last check passed
+      show:
+        name:
+          Name
+        language:
+          Language
+        created_at:
+          Created at
+        updated_at:
+          Updated at
+        state:
+          State
+        reference:
+          Reference
+        check_passed:
+          Check passed  
+      new:
+        title:
+          Add repository
+      create:
+        success:
+          Repository created successfully

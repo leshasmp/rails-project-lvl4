@@ -8,33 +8,33 @@
       tbody
         tr
           td
-            | Created at
+            = t('.created_at')
           td
             = @check.created_at.strftime('%b %d, %Y %H:%M')
         tr
           td
-            | Status
+            = t('.status')
           td
             = @check.aasm_state
         tr
           td
-            | Check passed
+            = t('.check_passed')
           td
             = @check.passed
         tr
           td
-            | Issues count
+            = t('.issues_count')
           td
             = @check.issues_count
       table.table.table-hover.mb-5
         thead
           tr
             th
-              | Message
+              = t('.message')
             th
-              | Rule
+              = t('.rule')
             th
-              | Line column
+              = t('.line_column')
         tbody
           - if @check_value.present?
             - @check_value.each do |value|
@@ -49,4 +49,3 @@
                     = message['rule']
                   td
                     = message['line_column']
-           

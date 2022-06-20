@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RepositoryCheckApiStub
-  def self.repo_path(_);end
+  def self.repo_path(_); end
 
   def self.command_check(_lang); end
 

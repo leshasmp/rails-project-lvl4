@@ -1,23 +1,4 @@
 en:
-  web:
-    home:
-      index:
-        title:
-          Github repository quality analyzer
-    repositories:
-      index:
-        title:
-          Repositories
-        new_repos:
-          New
-      new:
-        title:
-          Add repository
-      create:
-        success:
-          Repository created successfully
-    repository:
-      checks:
-        create:
-          success:
-            Check created      
+  back:
+    Back
+    

@@ -13,6 +13,7 @@ AllCops:
     - 'db/migrate/**'
     - 'vendor/**/*'
     - 'node_modules/**/*'
+    - 'tmp/repositories/**/*'
 
 Style/ClassAndModuleChildren:
   Enabled: false
