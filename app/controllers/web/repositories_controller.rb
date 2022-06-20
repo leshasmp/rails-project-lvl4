@@ -17,7 +17,8 @@ class Web::RepositoriesController < Web::ApplicationController
   def new
     @user_repositories = []
     language_values = Repository.language.values
-    filtered_repos = client_repos.filter { |repos| language_values.include? repos[:language] }
+    client = Octokit::Client.new access_token: current_user.token, per_page: 100
+    filtered_repos = client.repos.filter { |repos| language_values.include? repos[:language] }
     filtered_repos.each do |repos|
       @user_repositories << [repos[:full_name], repos[:id]]
     end
@@ -29,7 +30,7 @@ class Web::RepositoriesController < Web::ApplicationController
 
     if @repository.save
       redirect_to repositories_path, notice: t('.success')
-      RepositoryLoaderJob.perform_later @repository.id
+      RepositoryLoaderJob.perform_later @repository.id, current_user.token
     else
       render :new, notice: t('.error')
     end
@@ -41,11 +42,6 @@ class Web::RepositoriesController < Web::ApplicationController
   end
 
   private
-
-  def client_repos
-    client = Octokit::Client.new access_token: current_user.token, per_page: 100
-    client.repos
-  end
 
   def permitted_params
     params.require(:repository).permit(:github_id)
