@@ -8,7 +8,7 @@ class RepositoryCheckApi
   def self.command_check(lang)
     case lang
     when 'javascript'
-      'npx eslint --format json'
+      './node_modules/.bin/eslint --format json'
     when 'ruby'
       'rubocop --format json'
     end

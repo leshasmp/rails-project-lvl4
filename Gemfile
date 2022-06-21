@@ -41,6 +41,8 @@ gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 gem 'omniauth-rails_csrf_protection'
 gem 'rails-i18n'
 gem 'rollbar', '~> 2.11', '>= 2.11.5'
+gem 'rubocop-performance'
+gem 'rubocop-rails'
 gem 'simple_form'
 gem 'slim', '~> 3.0', '>= 3.0.6'
 
@@ -50,8 +52,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
   gem 'minitest-power_assert', '~> 0.3.1'
-  gem 'rubocop-performance'
-  gem 'rubocop-rails'
   gem 'slim_lint'
   gem 'sqlite3', '~> 1.4'
 end
