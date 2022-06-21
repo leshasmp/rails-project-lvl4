@@ -1,0 +1,13 @@
+en:
+  user_mailer:
+    data_check_email:
+      welcome_text:
+        "Hello, %{user_name}!"
+      result_last_check:
+        "The result of the last check repository %{repo_name}"
+      message:
+        Message
+      rule:
+        Rule
+      line_column:
+        Line column  

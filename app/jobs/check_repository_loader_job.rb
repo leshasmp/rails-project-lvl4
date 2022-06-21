@@ -7,6 +7,7 @@ class CheckRepositoryLoaderJob < ApplicationJob
     check = Repository::Check.find check_id
     check.check!
     repository = check.repository
+    user = repository.user
     params = RepositoryTester.new.run(check_id,
                                       repository.language.downcase,
                                       repository.name,
@@ -14,6 +15,7 @@ class CheckRepositoryLoaderJob < ApplicationJob
                                       repository.issues_count)
     if check.update(params)
       check.to_finished!
+      UserMailer.with(user: user, check: check).data_check_email.deliver_later unless check.passed
     else
       check.fail!
     end

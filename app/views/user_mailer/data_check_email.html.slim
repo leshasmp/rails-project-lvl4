@@ -1,0 +1,29 @@
+html
+  body
+    h1
+      = t('.welcome_text', user_name: @user.name)
+    p
+      = t('.result_last_check', repo_name: @check.repository.full_name)
+    table.table.table-hover.mb-5
+      thead
+        tr
+          th
+            = t('.message')
+          th
+            = t('.rule')
+          th
+            = t('.line_column')
+      tbody
+        - if @check_value.present?
+          - @check_value.each do |value|
+            tr
+              td[colspan="3"]
+                = link_to value['file_path'], 'https://github.com/'
+            - value['messages'].each do |message|
+              tr
+                td
+                  = message['message']
+                td
+                  = message['rule']
+                td
+                  = message['line_column']
