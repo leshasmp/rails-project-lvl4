@@ -10,6 +10,6 @@ class RepositoryCheckApiStub
   end
 
   def self.commit(_name)
-    '2a583b6'
+    '2a583b7'
   end
 end
