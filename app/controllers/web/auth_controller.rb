@@ -25,7 +25,7 @@ class Web::AuthController < Web::ApplicationController
 
   def user_params
     {
-      nickname: request.env['omniauth.auth'][:info][:nickname].downcase,
+      nickname: request.env['omniauth.auth'][:info][:nickname],
       name: request.env['omniauth.auth'][:info][:name],
       email: request.env['omniauth.auth'][:info][:email],
       image_url: request.env['omniauth.auth'][:info][:image],
