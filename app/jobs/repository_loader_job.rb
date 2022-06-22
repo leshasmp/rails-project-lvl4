@@ -4,6 +4,7 @@ class RepositoryLoaderJob < ApplicationJob
   queue_as :default
 
   def perform(id, token)
+    p 'Started RepositoryLoaderJob'
     repository = Repository.find id
     repository.fetch!
     client = Octokit::Client.new access_token: token, per_page: 100
