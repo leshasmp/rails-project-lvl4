@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       collection do
         patch :update_repos
       end
-      scope module: 'repository' do
+      scope module: 'repositories' do
         resources :checks, only: %i[create show]
       end
     end

@@ -2,7 +2,7 @@
 
 require 'octokit'
 
-class Web::Repository::ChecksController < Web::Repository::ApplicationController
+class Web::Repositories::ChecksController < Web::Repositories::ApplicationController
   def create
     @repository = Repository.find params[:repository_id]
     @check = @repository.checks.build
