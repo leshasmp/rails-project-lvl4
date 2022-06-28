@@ -9,13 +9,6 @@ class Web::RepositoriesControllerTest < ActionDispatch::IntegrationTest
     @attrs = {
       github_id: Faker::Number.number(digits: 7)
     }
-
-    uri_template = Addressable::Template.new 'https://api.github.com/user/repos?per_page=100'
-
-    response = load_fixture('files/repositories.json')
-
-    stub_request(:get, uri_template)
-      .to_return(status: 200, body: response, headers: { 'Content-Type' => 'application/json' })
   end
 
   test 'guest cant get index' do
