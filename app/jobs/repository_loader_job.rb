@@ -7,15 +7,20 @@ class RepositoryLoaderJob < ApplicationJob
     repository = Repository.find id
     repository.fetch!
 
-    # client = Octokit::Client.new access_token: token, per_page: 100
-    # remote_repository = client.repo repository.github_id
+    github_id = repository.github_id
 
-    client = RepositoryInfo.new github_id: repository.github_id, token: token
-    repo_info = client.repo
-    client.create_webhook
+    client = RepositoryInfo.new token: token
+
+    client.create_webhook(github_id)
+
+    repo_info = client.repo(github_id)
     params = repository_params(repo_info)
+
     params[:id] = repository.id
-    params[:issues_count] = client.issues.count
+
+    issues = client.issues(github_id)
+    params[:issues_count] = issues.count
+
     if repository.update(params)
       repository.to_fetched!
     else
@@ -24,21 +29,6 @@ class RepositoryLoaderJob < ApplicationJob
   end
 
   private
-
-  # def create_webhook(client, repo_name)
-  #   client.create_hook(
-  #     repo_name.to_s,
-  #     'web',
-  #     {
-  #       url: "#{Rails.application.routes.default_url_options[:host]}/api/checks",
-  #       content_type: 'json'
-  #     },
-  #     {
-  #       events: %w[push pull_request],
-  #       active: true
-  #     }
-  #   )
-  # end
 
   def repository_params(data)
     {

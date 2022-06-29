@@ -1,33 +1,25 @@
 # frozen_string_literal: true
 
 class RepositoryInfo
-  include Import['octokit_client']
-
-  attr_accessor :github_id, :token
-
   def initialize(params)
-    @github_id = params[:github_id]
     @token = params[:token]
-    if Rails.env.test?
-      @client = Octokit::Client.new access_token: @token, per_page: 100
-    else
-      @client = OctokitClientStub.new access_token: @token, per_page: 100
-    end
+    @client = ApplicationContainer[:octokit_client].new access_token: @token, per_page: 100
   end
 
-  def repo
-    @client.repo
+  def repo(github_id)
+    @client.repo(github_id)
   end
 
-  def issues
-    @client.issues
+  def repos
+    @client.repos
   end
 
-  def create_webhook
-    @client.create_hook repo[:full_name].to_s
+  def issues(github_id)
+    @client.issues github_id
   end
 
-  def create_hook
+  def create_webhook(github_id)
+    repo = repo(github_id)
     repo_name = repo[:full_name].to_s
     @client.create_hook(
       repo_name,

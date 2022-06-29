@@ -17,8 +17,10 @@ class Web::RepositoriesController < Web::ApplicationController
   def new
     @user_repositories = []
     language_values = Repository.language.values
-    client = Octokit::Client.new access_token: current_user.token, per_page: 100
+
+    client = RepositoryInfo.new token: current_user.token
     filtered_repos = client.repos.filter { |repos| language_values.include? repos[:language] }
+
     filtered_repos.each do |repos|
       @user_repositories << [repos[:full_name], repos[:id]]
     end

@@ -3,7 +3,22 @@
 class OctokitClientStub
   attr_accessor :access_token, :per_page
 
-  def self.repo(_github_id)
-    File.read('test/fixtures/files/repositories.json')
+  def initialize(params)
+    @access_token = params[:access_token]
+    @per_page = params[:per_page]
   end
+
+  def repo(_github_id)
+    JSON.parse File.read('test/fixtures/files/repository.json')
+  end
+
+  def repos
+    JSON.parse File.read('test/fixtures/files/repositories.json')
+  end
+
+  def issues(_github_id)
+    [{}]
+  end
+
+  def create_hook(_repo, _name, _config, options = {}); end
 end

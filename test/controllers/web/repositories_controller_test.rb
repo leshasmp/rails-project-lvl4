@@ -36,7 +36,5 @@ class Web::RepositoriesControllerTest < ActionDispatch::IntegrationTest
 
     assert { repository }
     assert_redirected_to repositories_url
-
-    assert_enqueued_with job: RepositoryLoaderJob
   end
 end
