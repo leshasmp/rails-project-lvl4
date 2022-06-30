@@ -3,5 +3,5 @@
 class User < ApplicationRecord
   has_many :repositories, dependent: :destroy
 
-  validates :email, :nickname, :token, presence: true
+  validates :email, :token, presence: true
 end
