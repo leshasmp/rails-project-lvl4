@@ -12,6 +12,8 @@ en:
           Language
         last_check_passed:
           Last check passed
+        no_checks:
+          No checks yet  
       show:
         name:
           Name

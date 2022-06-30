@@ -16,8 +16,8 @@
             - @repositories.each do |repository|
               tr
                 td
-                  = link_to repository.name, repository_path(repository), class: 'me-2'
+                  = link_to repository.name.presence || '-', repository_path(repository), class: 'me-2'
                 td
                   = repository.language
                 td
-                  = repository.last_check_passed
+                  = repository.last_check_passed.nil? ? t('.no_checks') : repository.last_check_passed
