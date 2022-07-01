@@ -7,7 +7,7 @@ created:
 
 one:
   user: one
-  github_id: MyString
+  github_id: "3423412"
   name: MyString
   full_name: MyString
   aasm_state: MyString
@@ -18,7 +18,7 @@ one:
 
 two:
   user: one
-  github_id: MyString
+  github_id: "3632266"
   name: MyString
   full_name: MyString
   aasm_state: MyString
