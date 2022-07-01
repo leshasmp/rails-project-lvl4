@@ -32,12 +32,12 @@ class RepositoryLoaderJob < ApplicationJob
 
   def repository_params(data)
     {
-      name: data[:name],
-      full_name: data[:full_name],
-      clone_url: data[:clone_url],
-      language: data[:language],
-      repo_created_at: data[:created_at],
-      repo_updated_at: data[:updated_at]
+      name: data['name'],
+      full_name: data['full_name'],
+      clone_url: data['clone_url'],
+      language: data['language'],
+      repo_created_at: data['created_at'],
+      repo_updated_at: data['updated_at']
     }
   end
 end

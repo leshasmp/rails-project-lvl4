@@ -19,10 +19,10 @@ class Web::RepositoriesController < Web::ApplicationController
     language_values = Repository.language.values
 
     client = RepositoryInfo.new token: current_user.token
-    filtered_repos = client.repos.filter { |repos| language_values.include? repos[:language] }
+    filtered_repos = client.repos.filter { |repos| language_values.include? repos['language'] }
 
     filtered_repos.each do |repos|
-      @user_repositories << [repos[:full_name], repos[:id]]
+      @user_repositories << [repos['full_name'], repos['id']]
     end
     @repository = Repository.new
   end
