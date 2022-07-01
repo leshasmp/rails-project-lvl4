@@ -8,7 +8,8 @@ class Api::ChecksController < Api::ApplicationController
   def create
     @repository = Repository.find_by github_id: params['repository']['id']
     @check = @repository.checks.build
-
-    CheckRepositoryLoaderJob.perform_later @check.id if @check.save
+    @check.save
+    CheckRepositoryLoaderJob.perform_later @check.id
+    render status: :ok
   end
 end
