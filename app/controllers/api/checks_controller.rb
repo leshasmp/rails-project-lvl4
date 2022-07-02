@@ -10,6 +10,6 @@ class Api::ChecksController < Api::ApplicationController
     @check = @repository.checks.build
     @check.save
     CheckRepositoryLoaderJob.perform_later @check.id
-    render status: :ok
+    head :ok
   end
 end

@@ -3,18 +3,18 @@
 require 'octokit'
 
 class Web::RepositoriesController < Web::ApplicationController
-  before_action :check_admin
+  after_action :verify_authorized
   caches_action :new
 
-  def check_admin
-    user_not_authorized unless signed_in?
-  end
-
   def index
+    authorize Repository
     @repositories = current_user.repositories.all.order('created_at DESC')
   end
 
   def new
+    @repository = Repository.new
+    authorize @repository
+
     @user_repositories = []
     language_values = Repository.language.values
 
@@ -24,10 +24,10 @@ class Web::RepositoriesController < Web::ApplicationController
     filtered_repos.each do |repos|
       @user_repositories << [repos['full_name'], repos['id']]
     end
-    @repository = Repository.new
   end
 
   def create
+    authorize Repository
     @repository = current_user.repositories.find_or_initialize_by(permitted_params)
 
     if @repository.save
@@ -41,15 +41,12 @@ class Web::RepositoriesController < Web::ApplicationController
   def show
     @repository = Repository.find(params[:id])
     @checks = @repository.checks.order('created_at DESC').page(params[:page])
+    authorize @repository
   end
 
   private
 
   def permitted_params
     params.require(:repository).permit(:github_id)
-  end
-
-  def user_not_authorized
-    redirect_to root_path, flash: { error: t('web.auth.error') }
   end
 end

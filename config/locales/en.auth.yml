@@ -8,4 +8,8 @@ en:
         success:
           Successfully signed in into your account
       error:
-        You should be logged    
+        You should be logged
+  authorization:
+    error:
+      You do not have sufficient rights to visit this page!
+    
