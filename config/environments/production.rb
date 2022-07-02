@@ -72,7 +72,8 @@ Rails.application.configure do
     address: ENV.fetch('MAIL_HOST', nil),
     domain: ENV.fetch('MAIL_HOST', nil),
     port: ENV.fetch('SMTP_PORT', nil) || '25',
-    authentication: :cram_md5
+    authentication: 'plain',
+    enable_starttls_auto: true
   }
   config.action_mailer.perform_caching = false
 
