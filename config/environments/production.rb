@@ -68,11 +68,11 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: ENV.fetch('APP_HOST', nil) }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
+    address: ENV.fetch('MAIL_ADDRESS', nil),
+    port: ENV.fetch('SMTP_PORT', nil) || '25',
+    domain: ENV.fetch('MAIL_DOMAIN', nil),
     user_name: ENV.fetch('MAIL_USERNAME', nil),
     password: ENV.fetch('MAIL_PASSWORD', nil),
-    address: ENV.fetch('MAIL_HOST', nil),
-    domain: ENV.fetch('MAIL_HOST', nil),
-    port: ENV.fetch('SMTP_PORT', nil) || '25',
     authentication: 'plain',
     enable_starttls_auto: true
   }
