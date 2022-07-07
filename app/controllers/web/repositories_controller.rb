@@ -12,8 +12,8 @@ class Web::RepositoriesController < Web::ApplicationController
   end
 
   def new
-    @repository = Repository.new
     authorize Repository
+    @repository = Repository.new
 
     @user_repositories = []
     language_values = Repository.language.values
