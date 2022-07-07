@@ -3,8 +3,7 @@
 class RepositoryTester
   include Import['repository_check_api']
 
-  def run(check_id, lang, repository_name, clone_url, issues_count)
-    commit_path = repository_check_api.commit(repository_name)
+  def run(lang, repository_name, clone_url)
     data = repository_check_api.run_check(lang, repository_name, clone_url)
     case lang
     when 'javascript'
@@ -12,13 +11,7 @@ class RepositoryTester
     when 'ruby'
       check_result = generate_result_rb(data)
     end
-    {
-      name: "Check ##{check_id}",
-      issues_count: issues_count,
-      value: check_result,
-      commit: commit_path,
-      passed: check_result.blank?
-    }
+    check_result
   end
 
   private

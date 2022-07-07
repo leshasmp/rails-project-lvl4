@@ -32,7 +32,7 @@ class Web::RepositoriesController < Web::ApplicationController
 
     if @repository.save
       redirect_to repositories_path, notice: t('.success')
-      RepositoryLoaderJob.perform_later @repository.id, current_user.token
+      RepositoryLoaderJob.perform_later @repository.id
     else
       render :new, status: :unprocessable_entity
     end

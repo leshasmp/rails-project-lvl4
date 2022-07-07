@@ -16,6 +16,13 @@ class OctokitClientStub
     JSON.parse File.read('test/fixtures/files/repositories.json')
   end
 
+  def commits(_github_id)
+    [
+      { sha: 'adf31a2asdasdgfdgsdfasd' },
+      { sha: 'asda18aas18asd1gdefdsff' }
+    ]
+  end
+
   def issues(_github_id)
     [{}]
   end

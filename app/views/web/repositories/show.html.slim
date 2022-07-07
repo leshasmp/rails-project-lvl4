@@ -39,7 +39,7 @@
               td
                 = check.aasm_state
               td
-                = link_to check.commit, "https://github.com/#{@repository.full_name}/commit/#{check.commit}"
+                = link_to check.commit, "https://github.com/#{@repository.full_name}/commit/#{check.commit}" if check.commit.present?
               td
                 = check.passed
               td

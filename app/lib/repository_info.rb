@@ -18,6 +18,10 @@ class RepositoryInfo
     @client.issues github_id
   end
 
+  def commits(github_id)
+    @client.commits github_id
+  end
+
   def create_webhook(github_id)
     repo = repo(github_id)
     repo_name = repo[:full_name].to_s

@@ -8,8 +8,4 @@ class RepositoryCheckApiStub
   def self.run_check(_lang, _name, _clone_url)
     '[{}]'
   end
-
-  def self.commit(_name)
-    '2a583b7'
-  end
 end

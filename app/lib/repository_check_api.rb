@@ -22,12 +22,4 @@ class RepositoryCheckApi
     end
     stdout
   end
-
-  def self.commit(name)
-    path = repo_path(name)
-    stdout, _exit_status = Open3.popen3("cd #{path} && git rev-parse --short HEAD") do |_stdin, stdout, _stderr, wait_thr|
-      [stdout.read, wait_thr.value]
-    end
-    stdout
-  end
 end

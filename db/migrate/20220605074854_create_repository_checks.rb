@@ -3,7 +3,7 @@ class CreateRepositoryChecks < ActiveRecord::Migration[6.1]
     create_table :repository_checks do |t|
       t.string :name
       t.string :status
-      t.boolean :passed
+      t.boolean :passed, default: false
       t.string :issues_count
       t.string :value
       t.string :commit
