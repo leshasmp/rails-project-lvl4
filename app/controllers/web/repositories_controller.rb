@@ -4,7 +4,6 @@ require 'octokit'
 
 class Web::RepositoriesController < Web::ApplicationController
   after_action :verify_authorized
-  caches_action :new
 
   def index
     authorize Repository
@@ -19,7 +18,10 @@ class Web::RepositoriesController < Web::ApplicationController
     language_values = Repository.language.values
 
     client = RepositoryInfo.new token: current_user.token
-    filtered_repos = client.repos.filter { |repos| language_values.include? repos['language'] }
+    filtered_repos = client.repos.filter do |repos|
+      language = repos['language'].downcase if repos['language'].present?
+      language_values.include? language
+    end
 
     filtered_repos.each do |repos|
       @user_repositories << [repos['full_name'], repos['id']]

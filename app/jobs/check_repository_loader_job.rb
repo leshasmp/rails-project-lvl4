@@ -9,7 +9,7 @@ class CheckRepositoryLoaderJob < ApplicationJob
 
     repository = check.repository
     token = repository.user.token
-    language = repository.language.downcase
+    language = repository.language
     repo_name = repository.name
     clone_url = repository.clone_url
     user = repository.user

@@ -31,7 +31,7 @@ class RepositoryLoaderJob < ApplicationJob
       name: data['name'],
       full_name: data['full_name'],
       clone_url: data['clone_url'],
-      language: data['language'],
+      language: data['language'].downcase,
       repo_created_at: data['created_at'],
       repo_updated_at: data['updated_at']
     }
