@@ -30,7 +30,7 @@ class CheckRepositoryLoaderJob < ApplicationJob
     params[:value] = RepositoryTester.new.run(language, repo_name, clone_url)
     params[:passed] = params[:value].blank?
 
-    if check.update(params)
+    if check.update(params) && params[:value] != false
       check.to_finished!
       UserMailer.with(user: user, check: check).data_check_email.deliver_later unless check.passed
     else

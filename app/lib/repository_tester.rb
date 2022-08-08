@@ -5,6 +5,8 @@ class RepositoryTester
 
   def run(lang, repository_name, clone_url)
     data = repository_check_api.run_check(lang, repository_name, clone_url)
+    return false if data.blank?
+
     case lang
     when 'javascript'
       check_result = generate_result_js(data)

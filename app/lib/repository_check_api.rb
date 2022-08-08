@@ -10,16 +10,16 @@ class RepositoryCheckApi
     when 'javascript'
       './node_modules/.bin/eslint --format json'
     when 'ruby'
-      'rubocop --format json'
+      'rubocop --config .rubocop_repos.yml --format json'
     end
   end
 
   def self.run_check(lang, name, clone_url)
-    command = command_check(lang)
+    command_check = command_check(lang)
     path = repo_path(name)
-    stdout, _exit_status = Open3.popen3("rm -rf #{path} &&
-      git clone #{clone_url} #{path} &&
-       #{command} #{path} --config .rubocop_repos.yml") do |_stdin, stdout, _stderr, wait_thr|
+    command_run_check = "rm -rf #{path} && git clone #{clone_url} #{path} && #{command_check} #{path}"
+
+    stdout, _exit_status = Open3.popen3(command_run_check) do |_stdin, stdout, _stderr, wait_thr|
       [stdout.read, wait_thr.value]
     end
     stdout
