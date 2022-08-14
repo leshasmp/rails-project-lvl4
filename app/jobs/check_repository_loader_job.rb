@@ -26,16 +26,19 @@ class CheckRepositoryLoaderJob < ApplicationJob
 
     check_result = RepositoryTester.new.run(language, repo_name, clone_url)
 
-    params[:value] = JSON.generate check_result[:value]
-
-    params[:passed] = check_result[:issues].zero?
-    params[:issues_count] = check_result[:issues]
-
-    if check.update(params) && params[:value] != false
-      check.to_finished!
-      UserMailer.with(user: user, check: check).data_check_email.deliver_later unless check.passed
-    else
+    if check_result == false
       check.fail!
+    else
+      params[:value] = JSON.generate check_result[:value]
+      params[:passed] = check_result[:issues].zero?
+      params[:issues_count] = check_result[:issues]
+
+      if check.update(params) && params[:value] != false
+        check.to_finished!
+        UserMailer.with(user: user, check: check).data_check_email.deliver_later unless check.passed
+      else
+        check.fail!
+      end
     end
   end
 end
