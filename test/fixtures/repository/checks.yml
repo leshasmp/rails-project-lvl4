@@ -2,18 +2,16 @@
 
 one:
   repository: one
-  status: MyString
   passed: false
   issues_count: 0
-  value: MyString
+  output: MyString
   commit: value
   aasm_state: created
 
 two:
   repository: two
-  status: MyString
   passed: false
   issues_count: 0
-  value: MyString
+  output: MyString
   commit: value
   aasm_state: created

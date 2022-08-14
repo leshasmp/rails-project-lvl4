@@ -14,10 +14,11 @@
               th[scope="col"] = t('.last_check_passed')
           tbody
             - @repositories.each do |repository|
+              - last_check = repository.checks.last
               tr
                 td
                   = link_to repository.name.presence || '-', repository_path(repository), class: 'me-2'
                 td
                   = repository.language.presence || '-'
                 td
-                  = repository.last_check_passed.nil? ? t('.no_checks') : repository.last_check_passed
+                  = last_check.present? ? last_check.passed : t('.no_checks')

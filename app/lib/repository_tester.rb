@@ -37,7 +37,7 @@ class RepositoryTester
       end
       result << params
     end
-    { value: result, issues: issues }
+    { output: result, issues: issues }
   end
 
   def generate_result_rb(check_result_data)
@@ -59,6 +59,6 @@ class RepositoryTester
       end
       result << params
     end
-    { value: result, issues: issues }
+    { output: result, issues: issues }
   end
 end

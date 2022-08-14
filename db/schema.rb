@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 2022_06_08_114431) do
     t.string "language"
     t.string "clone_url"
     t.string "aasm_state"
-    t.boolean "last_check_passed", default: false
     t.datetime "repo_created_at"
     t.datetime "repo_updated_at"
     t.datetime "created_at", precision: 6, null: false
@@ -29,11 +28,9 @@ ActiveRecord::Schema.define(version: 2022_06_08_114431) do
   end
 
   create_table "repository_checks", force: :cascade do |t|
-    t.string "name"
-    t.string "status"
     t.boolean "passed", default: false
     t.string "issues_count"
-    t.string "value"
+    t.string "output"
     t.string "commit"
     t.string "aasm_state"
     t.datetime "created_at", precision: 6, null: false

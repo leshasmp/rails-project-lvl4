@@ -3,7 +3,7 @@
     = link_to t('.go_to_repository'), repository_path(@check.repository), class: 'btn btn-primary my-4'
     .mb-4
       h1
-        = @check.name
+        = t('.name', name: @check.id)
     table.table
       tbody
         tr

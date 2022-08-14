@@ -4,7 +4,7 @@
       h1.mt-5
         = @repository.full_name
       hr
-    = link_to 'Check', repository_checks_path(@repository), class: 'btn btn-primary mb-4', method: 'post', data: { turbo: false }
+    = link_to t('.check'), repository_checks_path(@repository), class: 'btn btn-primary mb-4', method: 'post', data: { turbo: false }
     p
       strong.me-2
         = t('.name')

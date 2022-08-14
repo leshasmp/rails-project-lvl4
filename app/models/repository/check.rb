@@ -12,11 +12,11 @@ class Repository
       state :finished
       state :failed
 
-      event :check do
+      event :start_check do
         transitions from: :created, to: :checking
       end
 
-      event :to_finished do
+      event :finish_check do
         transitions from: :checking, to: :finished
       end
 

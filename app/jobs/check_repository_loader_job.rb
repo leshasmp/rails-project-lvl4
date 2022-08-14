@@ -5,7 +5,7 @@ class CheckRepositoryLoaderJob < ApplicationJob
 
   def perform(check_id)
     check = Repository::Check.find check_id
-    check.check!
+    check.start_check!
 
     repository = check.repository
     token = repository.user.token
@@ -18,7 +18,6 @@ class CheckRepositoryLoaderJob < ApplicationJob
     client = RepositoryInfo.new token: token
 
     params = {}
-    params[:name] = "Check ##{check_id}"
 
     commits = client.commits github_id
     last_commit = commits.first
@@ -29,12 +28,12 @@ class CheckRepositoryLoaderJob < ApplicationJob
     if check_result == false
       check.fail!
     else
-      params[:value] = JSON.generate check_result[:value]
+      params[:output] = JSON.generate check_result[:output]
       params[:passed] = check_result[:issues].zero?
       params[:issues_count] = check_result[:issues]
 
-      if check.update(params) && params[:value] != false
-        check.to_finished!
+      if check.update(params) && params[:output] != false
+        check.finish_check!
         UserMailer.with(user: user, check: check).data_check_email.deliver_later unless check.passed
       else
         check.fail!

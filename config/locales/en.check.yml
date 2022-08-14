@@ -1,6 +1,6 @@
 en:
   web:
-    repository:
+    repositories:
       checks:
         show:
           created_at:
@@ -17,4 +17,6 @@ en:
             Rule
           line_column:
             Line column
+          name:
+            "Check #%{name}"
         

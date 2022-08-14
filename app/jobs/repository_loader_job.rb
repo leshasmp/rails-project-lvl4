@@ -5,7 +5,7 @@ class RepositoryLoaderJob < ApplicationJob
 
   def perform(id)
     repository = Repository.find id
-    repository.fetch!
+    repository.start_fetching!
 
     github_id = repository.github_id
     token = repository.user.token
@@ -17,7 +17,7 @@ class RepositoryLoaderJob < ApplicationJob
     params[:id] = repository.id
 
     if repository.update(params)
-      repository.to_fetched!
+      repository.complete_fetching!
       client.create_webhook(github_id)
     else
       repository.fail!

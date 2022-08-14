@@ -28,7 +28,9 @@ en:
         reference:
           Reference
         check_passed:
-          Check passed  
+          Check passed
+        check:
+          Check
       new:
         title:
           Add repository
