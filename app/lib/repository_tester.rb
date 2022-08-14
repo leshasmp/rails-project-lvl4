@@ -22,6 +22,7 @@ class RepositoryTester
     result = []
     data = JSON.parse(check_result_data)
     filtered_check = data.filter { |value| value['messages'].present? }
+    issues = 0
     filtered_check.each do |value|
       params = {}
       params[:file_path] = value['filePath']
@@ -32,16 +33,18 @@ class RepositoryTester
           message: message['message'],
           line_column: "#{message['line']}:#{message['column']}"
         }
+        issues += 1
       end
       result << params
     end
-    JSON.generate result if result.present?
+    { value: result, issues: issues }
   end
 
   def generate_result_rb(check_result_data)
     result = []
     data = JSON.parse(check_result_data)['files']
     filtered_check = data.filter { |value| value['offenses'].present? }
+    issues = 0
     filtered_check.each do |value|
       params = {}
       params[:file_path] = value['path']
@@ -52,9 +55,10 @@ class RepositoryTester
           message: message['message'],
           line_column: "#{message['location']['start_line']}:#{message['location']['start_column']}"
         }
+        issues += 1
       end
       result << params
     end
-    JSON.generate result if result.present?
+    { value: result, issues: issues }
   end
 end

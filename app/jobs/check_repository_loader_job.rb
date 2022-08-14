@@ -20,15 +20,16 @@ class CheckRepositoryLoaderJob < ApplicationJob
     params = {}
     params[:name] = "Check ##{check_id}"
 
-    issues = client.issues github_id
-    params[:issues_count] = issues.count
-
     commits = client.commits github_id
     last_commit = commits.first
     params[:commit] = last_commit[:sha].slice(0..6)
 
-    params[:value] = RepositoryTester.new.run(language, repo_name, clone_url)
-    params[:passed] = params[:value].blank?
+    check_result = RepositoryTester.new.run(language, repo_name, clone_url)
+
+    params[:value] = JSON.generate check_result[:value]
+
+    params[:passed] = check_result[:issues].zero?
+    params[:issues_count] = check_result[:issues]
 
     if check.update(params) && params[:value] != false
       check.to_finished!

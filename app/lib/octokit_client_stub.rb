@@ -23,9 +23,5 @@ class OctokitClientStub
     ]
   end
 
-  def issues(_github_id)
-    [{}]
-  end
-
   def create_hook(_repo, _name, _config, options = {}); end
 end
