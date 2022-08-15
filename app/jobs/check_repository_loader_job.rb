@@ -25,7 +25,9 @@ class CheckRepositoryLoaderJob < ApplicationJob
 
     check_result = RepositoryTester.new.run(language, repo_name, clone_url)
 
-    if check_result
+    if check_result == false
+      check.fail!
+    else
       params[:output] = JSON.generate check_result[:output]
       params[:passed] = check_result[:issues].zero?
       params[:issues_count] = check_result[:issues]
@@ -36,8 +38,6 @@ class CheckRepositoryLoaderJob < ApplicationJob
       else
         check.fail!
       end
-    else
-      check.fail!
     end
   end
 end

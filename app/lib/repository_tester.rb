@@ -5,7 +5,7 @@ class RepositoryTester
 
   def run(lang, repository_name, clone_url)
     data = repository_check_api.run_check(lang, repository_name, clone_url)
-    return false if data.present?
+    return false if data.nil?
 
     case lang
     when 'javascript'

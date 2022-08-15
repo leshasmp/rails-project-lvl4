@@ -11,6 +11,7 @@ class Api::ChecksControllerTest < ActionDispatch::IntegrationTest
     post api_checks_url params: { repository: { id: @repository.github_id } }
 
     check = Repository::Check.find_by repository_id: @repository.id
+
     assert { check }
   end
 end
