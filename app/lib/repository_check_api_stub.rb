@@ -6,6 +6,6 @@ class RepositoryCheckApiStub
   def self.command_check(_lang); end
 
   def self.run_check(_lang, _name, _clone_url)
-    File.read('test/fixtures/files/check_result_js.json')
+    ''
   end
 end
