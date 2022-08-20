@@ -5,14 +5,13 @@ class RepositoryTester
 
   def run(lang, repository_name, clone_url)
     data = repository_check.run_check(lang, repository_name, clone_url)
-
-    return false if data.nil? || data[:status] == false
+    return false if data.nil?
 
     case lang
     when 'javascript'
-      check_result = generate_result_js(data[:result])
+      check_result = generate_result_js(data)
     when 'ruby'
-      check_result = generate_result_rb(data[:result])
+      check_result = generate_result_rb(data)
     end
     check_result
   end

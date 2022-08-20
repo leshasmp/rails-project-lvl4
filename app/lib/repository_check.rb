@@ -20,8 +20,10 @@ class RepositoryCheck
     command_run_check = "rm -rf #{path} && git clone #{clone_url} #{path} && #{command_check} #{path}"
 
     stdout, exit_status = Open3.popen3(command_run_check) do |_stdin, stdout, _stderr, wait_thr|
-      [stdout.read, wait_thr.value.success?]
+      [stdout.read, wait_thr.value]
     end
-    { result: stdout, status: exit_status }
+    return if exit_status.success? == false
+
+    stdout
   end
 end
