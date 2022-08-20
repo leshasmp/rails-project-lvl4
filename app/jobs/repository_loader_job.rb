@@ -5,7 +5,7 @@ class RepositoryLoaderJob < ApplicationJob
 
   def perform(id)
     repository = Repository.find_by id: id
-    return if repository.present?
+    return if repository.blank?
 
     repository.start_fetching!
 
@@ -15,7 +15,7 @@ class RepositoryLoaderJob < ApplicationJob
     client = RepositoryClient.new token
 
     repo_info = client.repo(github_id)
-    return repository.fail! if repo_info.present?
+    return repository.fail! if repo_info.blank?
 
     params = repository_params(repo_info)
 
