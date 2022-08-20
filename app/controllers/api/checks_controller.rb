@@ -7,7 +7,7 @@ class Api::ChecksController < Api::ApplicationController
 
   def create
     @repository = Repository.find_by github_id: params['repository']['id']
-    return if @repository.present?
+    return if @repository.blank?
 
     @check = @repository.checks.build
     @check.save
