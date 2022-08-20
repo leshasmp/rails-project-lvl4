@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RepositoryCheckApi
+class RepositoryCheck
   def self.repo_path(name)
     "tmp/repositories/#{name}/"
   end
@@ -8,7 +8,7 @@ class RepositoryCheckApi
   def self.command_check(lang)
     case lang
     when 'javascript'
-      './node_modules/.bin/eslint --format json'
+      './node_modules/.bin/eslint --config .eslintrc_repos.json --format json'
     when 'ruby'
       'rubocop --config .rubocop_repos.yml --format json'
     end
@@ -19,9 +19,9 @@ class RepositoryCheckApi
     path = repo_path(name)
     command_run_check = "rm -rf #{path} && git clone #{clone_url} #{path} && #{command_check} #{path}"
 
-    stdout, _exit_status = Open3.popen3(command_run_check) do |_stdin, stdout, _stderr, wait_thr|
-      [stdout.read, wait_thr.value]
+    stdout, exit_status = Open3.popen3(command_run_check) do |_stdin, stdout, _stderr, wait_thr|
+      [stdout.read, wait_thr.value.success?]
     end
-    stdout
+    { result: stdout, status: exit_status }
   end
 end

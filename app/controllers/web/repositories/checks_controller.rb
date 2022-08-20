@@ -11,7 +11,7 @@ class Web::Repositories::ChecksController < Web::Repositories::ApplicationContro
     authorize @check
     if @check.save
       redirect_to repository_path(@repository), notice: t('.success')
-      CheckRepositoryLoaderJob.perform_later @check.id
+      CheckRepositoryJob.perform_later @check.id
     else
       redirect_to repository_path(@repository), flash: { error: t('.error') }
     end
@@ -20,7 +20,7 @@ class Web::Repositories::ChecksController < Web::Repositories::ApplicationContro
   def show
     @repository = Repository.find params[:repository_id]
     @check = Repository::Check.find params[:id]
-    @check_value = JSON.parse(@check.output) if @check.output.present?
+    @check_output = JSON.parse(@check.output) if @check.output.present?
     authorize @check
   end
 end

@@ -32,8 +32,8 @@ module Web
 
     def show
       @repository = Repository.find(params[:id])
-      @checks = @repository.checks.order('created_at DESC').page(params[:page])
       authorize @repository
+      @checks = @repository.checks.order('created_at DESC').page(params[:page])
     end
 
     private
@@ -43,19 +43,15 @@ module Web
     end
 
     def user_repositories
-      result = []
       language_values = Repository.language.values
 
-      client = RepositoryInfo.new token: current_user.token
-      filtered_repos = client.repos.filter do |repos|
-        language = repos['language'].downcase if repos['language'].present?
+      client = RepositoryClient.new current_user.token
+      filtered_repos = client.repos.filter do |repo|
+        language = repo['language']&.downcase
         language_values.include? language
       end
 
-      filtered_repos.each do |repos|
-        result << [repos['full_name'], repos['id']]
-      end
-      result
+      filtered_repos.map { |repo| [repo['full_name'], repo['id']] }
     end
   end
 end

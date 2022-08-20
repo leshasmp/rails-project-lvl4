@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 class OctokitClientStub
-  attr_accessor :access_token, :per_page
-
-  def initialize(params)
-    @access_token = params[:access_token]
-    @per_page = params[:per_page]
+  def initialize(_params)
+    ''
   end
 
   def repo(_github_id)

@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-class RepositoryInfo
-  def initialize(params)
-    @token = params[:token]
-    @client = ApplicationContainer[:octokit_client].new access_token: @token, per_page: 100
+class RepositoryClient
+  def initialize(token)
+    @client = ApplicationContainer[:octokit_client].new access_token: token, per_page: 100
   end
 
   def repo(github_id)
@@ -14,19 +13,13 @@ class RepositoryInfo
     @client.repos
   end
 
-  def issues(github_id)
-    @client.issues github_id
-  end
-
   def commits(github_id)
     @client.commits github_id
   end
 
-  def create_webhook(github_id)
-    repo = repo(github_id)
-    repo_name = repo[:full_name].to_s
+  def create_webhook(repo_full_name)
     @client.create_hook(
-      repo_name,
+      repo_full_name,
       'web',
       {
         url: "#{Rails.application.routes.default_url_options[:host]}/api/checks",

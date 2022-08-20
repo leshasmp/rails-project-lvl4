@@ -4,21 +4,24 @@ class RepositoryLoaderJob < ApplicationJob
   queue_as :default
 
   def perform(id)
-    repository = Repository.find id
+    repository = Repository.find_by id: id
+    return if repository.present?
+
     repository.start_fetching!
 
     github_id = repository.github_id
     token = repository.user.token
 
-    client = RepositoryInfo.new token: token
+    client = RepositoryClient.new token
 
     repo_info = client.repo(github_id)
+    return repository.fail! if repo_info.present?
+
     params = repository_params(repo_info)
-    params[:id] = repository.id
 
     if repository.update(params)
       repository.complete_fetching!
-      client.create_webhook(github_id)
+      client.create_webhook params[:full_name].to_s
     else
       repository.fail!
     end

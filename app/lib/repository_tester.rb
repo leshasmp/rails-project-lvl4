@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
 class RepositoryTester
-  include Import['repository_check_api']
+  include Import['repository_check']
 
   def run(lang, repository_name, clone_url)
-    data = repository_check_api.run_check(lang, repository_name, clone_url)
-    return false if data.nil?
+    data = repository_check.run_check(lang, repository_name, clone_url)
+
+    return false if data.nil? || data[:status] == false
 
     case lang
     when 'javascript'
-      check_result = generate_result_js(data)
+      check_result = generate_result_js(data[:result])
     when 'ruby'
-      check_result = generate_result_rb(data)
+      check_result = generate_result_rb(data[:result])
     end
     check_result
   end

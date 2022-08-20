@@ -14,12 +14,12 @@ html
           th
             = t('.line_column')
       tbody
-        - if @check_value.present?
-          - @check_value.each do |value|
+        - if @check_output.present?
+          - @check_output.each do |output|
             tr
               td[colspan="3"]
-                = link_to value['file_path'], 'https://github.com/'
-            - value['messages'].each do |message|
+                = link_to output['file_path'], 'https://github.com/'
+            - output['messages'].each do |message|
               tr
                 td
                   = message['message']

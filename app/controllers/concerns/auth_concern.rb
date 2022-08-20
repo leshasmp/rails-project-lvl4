@@ -18,5 +18,6 @@ module AuthConcern
   def sign_out
     session.delete(:user_id)
     session.clear
+    redirect_to root_path, notice: t('.success')
   end
 end
