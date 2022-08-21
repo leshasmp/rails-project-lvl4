@@ -2,11 +2,11 @@
 [![Actions Status](https://github.com/leshasmp/rails-project-lvl4/workflows/hexlet-check/badge.svg)](https://github.com/leshasmp/rails-project-lvl4/actions)
 [![Lint](https://github.com/leshasmp/rails-project-lvl4/actions/workflows/lint.yml/badge.svg)](https://github.com/leshasmp/rails-project-lvl4/actions/workflows/lint.yml)
 
-## Пример проекта
+## Project example
 
 [https://github-quality-am.herokuapp.com/](https://github-quality-am.herokuapp.com/)
 
-## Системные требования
+## System requirements
 
 * Ruby
 * Node.js
@@ -14,7 +14,7 @@
 * SQLite3
 * [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
 
-## Установка
+## Installation
 
 ```sh
 make setup
