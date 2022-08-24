@@ -9,24 +9,37 @@ class CheckRepositoryJob < ApplicationJob
 
     check.start_check!
 
-    repository = check.repository
-    user = repository.user
+    repo = check.repository
+    user = repo.user
 
     client = RepositoryClient.new user.token
 
-    params = {}
+    begin
+      check_result = RepositoryCheck.run(repo)
+    rescue StandardError
+      return check.fail!
+    end
 
-    commits = client.commits repository.github_id
-    last_commit = commits.first
-    params[:commit] = last_commit[:sha].slice(0..6)
+    commits = commits(client, repo.github_id)
+    params = params(check_result, commits.first)
 
-    check_result = RepositoryTester.new.run(repository.language, repository.name, repository.clone_url)
-    return check.fail! unless check
+    update(check, params)
+  end
 
-    params[:output] = JSON.generate check_result[:output]
-    params[:passed] = check_result[:issues].zero?
-    params[:issues_count] = check_result[:issues]
+  def params(check_result, commit)
+    {
+      output: JSON.generate(check_result[:output]),
+      passed: check_result[:issues].zero?,
+      issues_count: check_result[:issues],
+      commit: commit[:sha].slice(0..6)
+    }
+  end
 
+  def commits(client, github_id)
+    client.commits github_id
+  end
+
+  def update(check, params)
     if check.update(params)
       check.finish_check!
       UserMailer.with(user: user, check: check).data_check_email.deliver_later unless check.passed

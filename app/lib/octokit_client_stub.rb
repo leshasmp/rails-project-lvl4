@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class OctokitClientStub
-  def initialize(_params)
-    ''
-  end
+  def initialize(_params); end
 
   def repo(_github_id)
     JSON.parse File.read('test/fixtures/files/repository.json')

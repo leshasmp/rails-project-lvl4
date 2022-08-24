@@ -20,7 +20,7 @@ class Web::Repositories::ChecksController < Web::Repositories::ApplicationContro
   def show
     @repository = Repository.find params[:repository_id]
     @check = Repository::Check.find params[:id]
-    @check_output = JSON.parse(@check.output) if @check.output.present?
     authorize @check
+    @check_output = JSON.parse(@check.output) if @check.output.present?
   end
 end

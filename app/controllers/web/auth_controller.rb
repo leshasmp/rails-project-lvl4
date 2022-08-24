@@ -2,16 +2,21 @@
 
 class Web::AuthController < Web::ApplicationController
   def callback
-    @user = User.find_or_initialize_by(email: request.env['omniauth.auth'][:info][:email])
-    @user.nickname = request.env['omniauth.auth'][:info][:nickname]
-    @user.name = request.env['omniauth.auth'][:info][:name]
-    @user.image_url = request.env['omniauth.auth'][:info][:image]
-    @user.token = request.env['omniauth.auth'][:credentials][:token]
+    data_user = request.env['omniauth.auth']
+    @user = User.find_or_initialize_by(email: data_user[:info][:email])
+    @user.nickname = data_user[:info][:nickname]
+    @user.name = data_user[:info][:name]
+    @user.image_url = data_user[:info][:image]
+    @user.token = data_user[:credentials][:token]
     if @user.save
       sign_in @user
       redirect_to root_path, notice: t('.success')
     else
       redirect_to root_path, flash: { error: t('.error') }
     end
+  end
+
+  def log_out
+    sign_out
   end
 end

@@ -14,8 +14,11 @@ class RepositoryLoaderJob < ApplicationJob
 
     client = RepositoryClient.new token
 
-    repo_info = client.repo(github_id)
-    return repository.fail! if repo_info.blank?
+    begin
+      repo_info = client.repo(github_id)
+    rescue StandardError
+      return repository.fail!
+    end
 
     params = repository_params(repo_info)
 

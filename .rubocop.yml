@@ -39,3 +39,6 @@ Metrics/BlockLength:
 
 Style/AsciiComments:
   Enabled: false
+
+Style/RedundantInitialize:
+  Enabled: false
