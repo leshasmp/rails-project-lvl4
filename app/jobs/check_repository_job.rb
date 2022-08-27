@@ -15,7 +15,7 @@ class CheckRepositoryJob < ApplicationJob
     client = RepositoryClient.new user.token
 
     begin
-      check_result = RepositoryCheck.run(repo)
+      check_result = ApplicationContainer[:repository_check].run(repo)
     rescue StandardError
       return check.fail!
     end

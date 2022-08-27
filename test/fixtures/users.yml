@@ -1,15 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  nickname: MyString
-  name: MyString
-  email: MyString
+  nickname: User one
+  name: <%= Faker::Name.name %>
+  email: <%= Faker::Internet.email %>
   image_url: MyString
   token: MyString
 
 two:
-  nickname: MyString
-  name: MyString
-  email: MyString
+  nickname: User two
+  name: <%= Faker::Name.name %>
+  email: <%= Faker::Internet.email %>
   image_url: MyString
   token: MyString

@@ -40,15 +40,16 @@ class Web::RepositoriesControllerTest < ActionDispatch::IntegrationTest
 
     repository = Repository.find_by github_id: @attrs[:github_id]
 
-    assert { repository }
+    repository.reload
+    assert { repository.fetched? }
     assert_redirected_to repositories_url
   end
 
-  # test 'should get show' do
-  #   sign_in @user
-  #   get repository_url(@repository)
-  #   assert_response :success
-  # end
+  test 'should get show' do
+    sign_in @user
+    get repository_url(@repository)
+    assert_response :success
+  end
 
   test 'guest cant get show' do
     get repository_url(@repository)

@@ -1,10 +1,10 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  repository: one
+  repository: two
   passed: false
   issues_count: 0
-  output: MyString
+  output: '[]'
   commit: value
   aasm_state: created
 
@@ -12,6 +12,6 @@ two:
   repository: two
   passed: false
   issues_count: 0
-  output: MyString
+  output: '[]'
   commit: value
   aasm_state: created
