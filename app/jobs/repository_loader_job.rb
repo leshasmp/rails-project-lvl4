@@ -3,36 +3,30 @@
 class RepositoryLoaderJob < ApplicationJob
   queue_as :default
 
-  def perform(id)
-    repository = Repository.find_by id: id
-    return if repository.blank?
+  def perform(repo_id)
+    repo = Repository.find_by id: repo_id
+    repo.start_fetching!
 
-    repository.start_fetching!
-
-    github_id = repository.github_id
-    token = repository.user.token
+    github_id = repo.github_id
+    token = repo.user.token
 
     client = RepositoryClient.new token
 
-    begin
-      repo_info = client.repo(github_id)
-    rescue StandardError
-      return repository.fail!
-    end
+    repo_info = client.repo(github_id)
 
-    params = repository_params(repo_info)
+    params = repo_params(repo_info)
 
-    if repository.update(params)
-      repository.complete_fetching!
-      client.create_webhook params[:full_name].to_s
-    else
-      repository.fail!
-    end
+    repo.update(params)
+    repo.complete_fetching!
+    client.create_webhook params[:full_name].to_s
+  rescue StandardError => e
+    repo.fail!
+    Rails.logger.debug e
   end
 
   private
 
-  def repository_params(data)
+  def repo_params(data)
     {
       name: data['name'],
       full_name: data['full_name'],

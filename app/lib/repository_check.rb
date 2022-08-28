@@ -5,13 +5,8 @@ class RepositoryCheck
     data = run_check(repo)
     return false if data.nil?
 
-    case repo.language
-    when 'javascript'
-      check_result = generate_result_js(data)
-    when 'ruby'
-      check_result = generate_result_rb(data)
-    end
-    check_result
+    formatter = "OutputFormatters::#{repo.language.capitalize}"
+    formatter.constantize.run(data)
   end
 
   def self.repo_path(name)
@@ -38,49 +33,5 @@ class RepositoryCheck
     stdout
   end
 
-  def self.generate_result_js(check_result_data)
-    result = []
-    data = JSON.parse(check_result_data)
-    filtered_check = data.filter { |value| value['messages'].present? }
-    issues = 0
-    filtered_check.each do |value|
-      params = {}
-      params[:file_path] = value['filePath']
-      params[:messages] = []
-      value['messages'].each do |message|
-        params[:messages] << {
-          rule: message['ruleId'],
-          message: message['message'],
-          line_column: "#{message['line']}:#{message['column']}"
-        }
-        issues += 1
-      end
-      result << params
-    end
-    { output: result, issues: issues }
-  end
-
-  def self.generate_result_rb(check_result_data)
-    result = []
-    data = JSON.parse(check_result_data)['files']
-    filtered_check = data.filter { |value| value['offenses'].present? }
-    issues = 0
-    filtered_check.each do |value|
-      params = {}
-      params[:file_path] = value['path']
-      params[:messages] = []
-      value['offenses'].each do |message|
-        params[:messages] << {
-          rule: message['cop_name'],
-          message: message['message'],
-          line_column: "#{message['location']['start_line']}:#{message['location']['start_column']}"
-        }
-        issues += 1
-      end
-      result << params
-    end
-    { output: result, issues: issues }
-  end
-
-  private_class_method :generate_result_js, :generate_result_rb, :repo_path, :command_check, :run_check
+  private_class_method :repo_path, :command_check, :run_check
 end

@@ -12,6 +12,9 @@ class Api::ChecksControllerTest < ActionDispatch::IntegrationTest
 
     check = Repository::Check.find_by repository_id: @repository.id
 
-    assert { check }
+    check.reload
+    assert { check.passed? }
+    assert { check.finished? }
+    assert_response :success
   end
 end

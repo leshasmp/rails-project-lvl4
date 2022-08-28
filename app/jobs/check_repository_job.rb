@@ -5,8 +5,6 @@ class CheckRepositoryJob < ApplicationJob
 
   def perform(check_id)
     check = Repository::Check.find_by id: check_id
-    return if check.blank?
-
     check.start_check!
 
     repo = check.repository
@@ -14,17 +12,18 @@ class CheckRepositoryJob < ApplicationJob
 
     client = RepositoryClient.new user.token
 
-    begin
-      check_result = ApplicationContainer[:repository_check].run(repo)
-    rescue StandardError
-      return check.fail!
-    end
+    check_result = ApplicationContainer[:repository_check].run(repo)
 
     commits = commits(client, repo.github_id)
     params = params(check_result, commits.first)
 
     update(check, params)
+  rescue StandardError => e
+    check.fail!
+    Rails.logger.debug e
   end
+
+  private
 
   def params(check_result, commit)
     {
@@ -40,11 +39,8 @@ class CheckRepositoryJob < ApplicationJob
   end
 
   def update(check, params)
-    if check.update(params)
-      check.finish_check!
-      UserMailer.with(user: user, check: check).data_check_email.deliver_later unless check.passed
-    else
-      check.fail!
-    end
+    check.update(params)
+    check.finish_check!
+    UserMailer.with(user: user, check: check).data_check_email.deliver_later unless check.passed
   end
 end
