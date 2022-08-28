@@ -1,7 +1,7 @@
 en:
   web:
     auth:
-      sign_out:
+      log_out:
         success:
           Successfully logged out from your account
       callback:
