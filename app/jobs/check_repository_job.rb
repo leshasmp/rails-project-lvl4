@@ -5,6 +5,8 @@ class CheckRepositoryJob < ApplicationJob
 
   def perform(check_id)
     check = Repository::Check.find_by id: check_id
+    return if check.blank?
+
     check.start_check!
 
     repo = check.repository
@@ -39,7 +41,7 @@ class CheckRepositoryJob < ApplicationJob
   end
 
   def update(check, params)
-    check.update(params)
+    check.update!(params)
     check.finish_check!
     UserMailer.with(user: user, check: check).data_check_email.deliver_later unless check.passed
   end

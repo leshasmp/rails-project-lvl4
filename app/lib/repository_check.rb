@@ -3,7 +3,6 @@
 class RepositoryCheck
   def self.run(repo)
     data = run_check(repo)
-    return false if data.nil?
 
     formatter = "OutputFormatters::#{repo.language.capitalize}"
     formatter.constantize.run(data)

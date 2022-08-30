@@ -5,6 +5,8 @@ class RepositoryLoaderJob < ApplicationJob
 
   def perform(repo_id)
     repo = Repository.find_by id: repo_id
+    return if repo.blank?
+
     repo.start_fetching!
 
     github_id = repo.github_id
@@ -16,7 +18,7 @@ class RepositoryLoaderJob < ApplicationJob
 
     params = repo_params(repo_info)
 
-    repo.update(params)
+    repo.update!(params)
     repo.complete_fetching!
     client.create_webhook params[:full_name].to_s
   rescue StandardError => e
